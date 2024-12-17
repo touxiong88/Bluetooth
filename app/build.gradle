@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+    namespace "win.lioil.bluetooth"
     compileSdkVersion 27
     defaultConfig {
         applicationId "win.lioil.bluetooth"
