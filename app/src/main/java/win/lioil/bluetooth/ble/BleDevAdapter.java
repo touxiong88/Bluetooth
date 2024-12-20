@@ -33,7 +33,7 @@ public class BleDevAdapter extends RecyclerView.Adapter<BleDevAdapter.VH> {
             if (!mDevices.contains(dev)) {
                 mDevices.add(dev);
                 notifyDataSetChanged();
-                Log.i(TAG, "onScanResult: " + result); // result.getScanRecord() 获取BLE广播数据
+                Log.i(TAG, "onScanResult: " + result); // result.getScanRecord()Get BLE broadcast data
             }
         }
     };
@@ -43,25 +43,25 @@ public class BleDevAdapter extends RecyclerView.Adapter<BleDevAdapter.VH> {
         scanBle();
     }
 
-    // 重新扫描
+    // rescan
     public void reScan() {
         mDevices.clear();
         notifyDataSetChanged();
         scanBle();
     }
 
-    // 扫描BLE蓝牙(不会扫描经典蓝牙)
+    // Scan BLE Bluetooth (classic Bluetooth will not be scanned)
     private void scanBle() {
         isScanning = true;
 //        BluetoothAdapter bluetoothAdapter = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE).getDefaultAdapter();
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         final BluetoothLeScanner bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
-        // Android5.0新增的扫描API，扫描返回的结果更友好，比如BLE广播数据以前是byte[] scanRecord，而新API帮我们解析成ScanRecord类
+        // The scanning API added in Android 5.0 makes the scanning results more friendly. For example, the BLE broadcast data used to be byte [] scanRecord, but the new API helps us parse it into the ScanRecord class
         bluetoothLeScanner.startScan(mScanCallback);
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                bluetoothLeScanner.stopScan(mScanCallback); //停止扫描
+                bluetoothLeScanner.stopScan(mScanCallback); //stop scan
                 isScanning = false;
             }
         }, 3000);
@@ -80,7 +80,7 @@ public class BleDevAdapter extends RecyclerView.Adapter<BleDevAdapter.VH> {
         String name = dev.dev.getName();
         String address = dev.dev.getAddress();
         holder.name.setText(String.format("%s, %s, Rssi=%s", name, address, dev.scanResult.getRssi()));
-        holder.address.setText(String.format("广播数据{%s}", dev.scanResult.getScanRecord()));
+        holder.address.setText(String.format("broadcast data{%s}", dev.scanResult.getScanRecord()));
     }
 
     @Override

@@ -10,9 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 
-/**
- * 监听蓝牙广播-各种状态
- */
+
 public class BtReceiver extends BroadcastReceiver {
     private static final String TAG = BtReceiver.class.getSimpleName();
     private final Listener mListener;
@@ -20,19 +18,19 @@ public class BtReceiver extends BroadcastReceiver {
     public BtReceiver(Context cxt, Listener listener) {
         mListener = listener;
         IntentFilter filter = new IntentFilter();
-        filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);//蓝牙开关状态
-        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);//蓝牙开始搜索
-        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);//蓝牙搜索结束
+        filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
+        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 
-        filter.addAction(BluetoothDevice.ACTION_FOUND);//蓝牙发现新设备(未配对的设备)
-        filter.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);//在系统弹出配对框之前(确认/输入配对码)
-        filter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);//设备配对状态改变
-        filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);//最底层连接建立
-        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);//最底层连接断开
+        filter.addAction(BluetoothDevice.ACTION_FOUND);
+        filter.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);
+        filter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+        filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
 
-        filter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED); //BluetoothAdapter连接状态
-        filter.addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED); //BluetoothHeadset连接状态
-        filter.addAction(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED); //BluetoothA2dp连接状态
+        filter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED);
+        filter.addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED);
+        filter.addAction(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED);
         cxt.registerReceiver(this, filter);
     }
 
@@ -60,13 +58,7 @@ public class BtReceiver extends BroadcastReceiver {
                 Log.i(TAG, "EXTRA_RSSI:" + rssi);
                 mListener.foundDev(dev);
                 break;
-            case BluetoothDevice.ACTION_PAIRING_REQUEST: //在系统弹出配对框之前，实现自动配对，取消系统配对框
-                /*try {
-                    abortBroadcast();//终止配对广播，取消系统配对框
-                    boolean ret = dev.setPin("1234".getBytes()); //设置PIN配对码(必须是固定的)
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }*/
+            case BluetoothDevice.ACTION_PAIRING_REQUEST:
                 break;
             case BluetoothDevice.ACTION_BOND_STATE_CHANGED:
                 Log.i(TAG, "BOND_STATE: " + intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, 0));

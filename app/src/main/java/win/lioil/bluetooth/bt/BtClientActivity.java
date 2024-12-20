@@ -52,12 +52,12 @@ public class BtClientActivity extends Activity implements BtBase.Listener, BtRec
     @Override
     public void onItemClick(BluetoothDevice dev) {
         if (mClient.isConnected(dev)) {
-            APP.toast("已经连接了", 0);
+            APP.toast("Already connected", 0);
             return;
         }
         mClient.connect(dev);
-        APP.toast("正在连接...", 0);
-        mTips.setText("正在连接...");
+        APP.toast("connecting...", 0);
+        mTips.setText("connecting...");
     }
 
     @Override
@@ -65,7 +65,7 @@ public class BtClientActivity extends Activity implements BtBase.Listener, BtRec
         mBtDevAdapter.add(dev);
     }
 
-    // 重新扫描
+
     public void reScan(View view) {
         mBtDevAdapter.reScan();
     }
@@ -74,22 +74,22 @@ public class BtClientActivity extends Activity implements BtBase.Listener, BtRec
         if (mClient.isConnected(null)) {
             String msg = mInputMsg.getText().toString();
             if (TextUtils.isEmpty(msg))
-                APP.toast("消息不能空", 0);
+                APP.toast("Message cannot be empty", 0);
             else
                 mClient.sendMsg(msg);
         } else
-            APP.toast("没有连接", 0);
+            APP.toast("not connected", 0);
     }
 
     public void sendFile(View view) {
         if (mClient.isConnected(null)) {
             String filePath = mInputFile.getText().toString();
             if (TextUtils.isEmpty(filePath) || !new File(filePath).isFile())
-                APP.toast("文件无效", 0);
+                APP.toast("Invalid file", 0);
             else
                 mClient.sendFile(filePath);
         } else
-            APP.toast("没有连接", 0);
+            APP.toast("not connected", 0);
     }
 
     @Override
@@ -100,11 +100,11 @@ public class BtClientActivity extends Activity implements BtBase.Listener, BtRec
         switch (state) {
             case BtBase.Listener.CONNECTED:
                 BluetoothDevice dev = (BluetoothDevice) obj;
-                msg = String.format("与%s(%s)连接成功", dev.getName(), dev.getAddress());
+                msg = String.format("Successfully connected to% s (%s)", dev.getName(), dev.getAddress());
                 mTips.setText(msg);
                 break;
             case BtBase.Listener.DISCONNECTED:
-                msg = "连接断开";
+                msg = "Disconnect";
                 mTips.setText(msg);
                 break;
             case BtBase.Listener.MSG:

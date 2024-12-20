@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 public class APP extends Application {
     private static final Handler sHandler = new Handler();
-    private static Toast sToast; // 单例Toast,避免重复创建，显示时间过长
+    private static Toast sToast;
 
     @SuppressLint("ShowToast")
     @Override

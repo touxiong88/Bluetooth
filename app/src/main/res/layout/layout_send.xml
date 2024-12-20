@@ -7,7 +7,7 @@
         android:id="@+id/input_msg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入短消息" />
+        android:hint="Please enter SMS" />
 
     <Button
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
         android:id="@+id/input_file"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入文件路径(例如:/sdcard/1.txt)" />
+        android:hint="Please enter the file path (for example:/ sdcard/1.txt)" />
 
     <Button
         android:layout_width="match_parent"

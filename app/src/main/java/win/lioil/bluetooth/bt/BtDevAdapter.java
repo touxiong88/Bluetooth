@@ -46,7 +46,7 @@ public class BtDevAdapter extends RecyclerView.Adapter<BtDevAdapter.VH> {
         String address = dev.getAddress();
         int bondState = dev.getBondState();
         holder.name.setText(name == null ? "" : name);
-        holder.address.setText(String.format("%s (%s)", address, bondState == 10 ? "未配对" : "配对"));
+        holder.address.setText(String.format("%s (%s)", address, bondState == 10 ? "unpaired" : "paired"));
     }
 
     @Override
