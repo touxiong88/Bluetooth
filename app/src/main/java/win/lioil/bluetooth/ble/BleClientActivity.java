@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -33,6 +35,7 @@ public class BleClientActivity extends Activity {
     private BleDevAdapter mBleDevAdapter;
     private BluetoothGatt mBluetoothGatt;
     private boolean isConnected = false;
+    private static final UUID CLIENT_CHARACTERISTIC_CONFIG = UUID.fromString("00002902-0000-1000-8000-00805F9B34FB");
 
     // Callback connected to the server
     public BluetoothGattCallback mBluetoothGattCallback = new BluetoothGattCallback() {
@@ -66,8 +69,22 @@ public class BleClientActivity extends Activity {
                     Log.i(TAG, "onServicesDiscovered:" + allUUIDs.toString());
                     logTv("found service" + allUUIDs);
                 }
+
+                //found service and characteristic
+                BluetoothGattService service = mBluetoothGatt.getService(UUID.fromString("722e0001-4553-4523-5539-35022233cd4e"));//your_service_uuid
+                BluetoothGattCharacteristic notifyCharacteristic = service.getCharacteristic(UUID.fromString("722e0003-4553-4523-5539-35022233cd4e"));
+                //BluetoothGattCharacteristic writeCharacteristic =  service.getCharacteristic(UUID.fromString("722e0002-4553-4523-5539-35022233cd4e"));
+                // set notify
+                mBluetoothGatt.setCharacteristicNotification(notifyCharacteristic, true);
+                BluetoothGattDescriptor descriptor = notifyCharacteristic.getDescriptor(CLIENT_CHARACTERISTIC_CONFIG);
+                descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                mBluetoothGatt.writeDescriptor(descriptor);
             }
         }
+
+
+
+
 
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
@@ -88,10 +105,9 @@ public class BleClientActivity extends Activity {
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             UUID uuid = characteristic.getUuid();
-            String valueStr = new String(characteristic.getValue());
+            String valueStr = new String(characteristic.getValue(), StandardCharsets.UTF_8);
             Log.i(TAG, String.format("onCharacteristicChanged:%s,%s,%s,%s", gatt.getDevice().getName(), gatt.getDevice().getAddress(), uuid, valueStr));
             logTv("notify Characteristic[" + uuid + "]:\n" + valueStr);
-            //APP.toast("received...", 0);
         }
 
         @Override
@@ -101,13 +117,17 @@ public class BleClientActivity extends Activity {
             Log.i(TAG, String.format("onDescriptorRead:%s,%s,%s,%s,%s", gatt.getDevice().getName(), gatt.getDevice().getAddress(), uuid, valueStr, status));
             logTv("read Descriptor[" + uuid + "]:\n" + valueStr);
         }
-
+        ////If listening is successfully enabled, the onDescriptorWrite() method in BluetoothGattCallback will be called back. The processing method is as follows:
         @Override
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
             UUID uuid = descriptor.getUuid();
             String valueStr = Arrays.toString(descriptor.getValue());
             Log.i(TAG, String.format("onDescriptorWrite:%s,%s,%s,%s,%s", gatt.getDevice().getName(), gatt.getDevice().getAddress(), uuid, valueStr, status));
             logTv("write Descriptor[" + uuid + "]:\n" + valueStr);
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                //Successfully enabled listening. You can write commands to the device
+                Log.e(TAG, "Successfully enabled listening");
+            }
         }
     };
 
