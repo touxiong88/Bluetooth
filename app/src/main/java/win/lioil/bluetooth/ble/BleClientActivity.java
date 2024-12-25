@@ -17,7 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.UUID;
@@ -57,8 +58,18 @@ public class BleClientActivity extends Activity {
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             Log.i(TAG, String.format("onServicesDiscovered:%s,%s,%s", gatt.getDevice().getName(), gatt.getDevice().getAddress(), status));
             if (status == BluetoothGatt.GATT_SUCCESS) { //BLE service discovery succeeded
+                UUID serviceUUID = null,notifyUUID = null;
                 // Traverse to obtain all UUIDs of BLE service Services/Characteristics/Descriptors
                 for (BluetoothGattService service : gatt.getServices()) {
+                    serviceUUID = service.getUuid();
+                    Log.i(TAG, "Service UUID: " + serviceUUID);
+
+                    for (BluetoothGattCharacteristic characteristic : service.getCharacteristics()) {
+                        if ((characteristic.getProperties() & BluetoothGattCharacteristic.PROPERTY_NOTIFY) != 0) {
+                            notifyUUID = characteristic.getUuid();
+                            Log.d("TAG", "Found notify characteristic: " + notifyUUID);
+                        }
+                    }
                     StringBuilder allUUIDs = new StringBuilder("UUIDs={\nS=" + service.getUuid().toString());
                     for (BluetoothGattCharacteristic characteristic : service.getCharacteristics()) {
                         allUUIDs.append(",\nC=").append(characteristic.getUuid());
@@ -71,8 +82,8 @@ public class BleClientActivity extends Activity {
                 }
 
                 //found service and characteristic
-                BluetoothGattService service = mBluetoothGatt.getService(UUID.fromString("722e0001-4553-4523-5539-35022233cd4e"));//your_service_uuid
-                BluetoothGattCharacteristic notifyCharacteristic = service.getCharacteristic(UUID.fromString("722e0003-4553-4523-5539-35022233cd4e"));
+                BluetoothGattService service = mBluetoothGatt.getService(serviceUUID);//your_service_uuid 722e0001-4553-4523-5539-35022233cd4e
+                BluetoothGattCharacteristic notifyCharacteristic = service.getCharacteristic(notifyUUID);//your notify uuid 722e0003-4553-4523-5539-35022233cd4e
                 //BluetoothGattCharacteristic writeCharacteristic =  service.getCharacteristic(UUID.fromString("722e0002-4553-4523-5539-35022233cd4e"));
                 // set notify
                 mBluetoothGatt.setCharacteristicNotification(notifyCharacteristic, true);
@@ -105,9 +116,28 @@ public class BleClientActivity extends Activity {
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             UUID uuid = characteristic.getUuid();
-            String valueStr = new String(characteristic.getValue(), StandardCharsets.UTF_8);
-            Log.i(TAG, String.format("onCharacteristicChanged:%s,%s,%s,%s", gatt.getDevice().getName(), gatt.getDevice().getAddress(), uuid, valueStr));
-            logTv("notify Characteristic[" + uuid + "]:\n" + valueStr);
+            byte[] data = characteristic.getValue();
+            if (data.length == 6 && data[0] == 0x56 && data[5] == 0x76) {//battery charge info 1byte head + 2 voltage + 1 charge status + 1CRC+ 1 tail
+                // battery voltage
+                int batteryVoltage = ByteBuffer.wrap(Arrays.copyOfRange(data, 1, 3)).getShort() & 0xFFFF;
+                Log.i(TAG, "Battery voltage: " + batteryVoltage + "mv");
+
+                short voltage = ByteBuffer.wrap(Arrays.copyOfRange(data, 1, 3)).order(ByteOrder.BIG_ENDIAN).getShort();
+                byte chargingStatus = data[3];
+                byte crc = data[4];
+
+                String formattedData = String.format("Voltage: %d mv, Charging Status:  %d, CRC: 0x%02X", voltage, chargingStatus, crc);
+
+                Log.i(TAG, String.format("onCharacteristicChanged:%s,%s,%s,%s", gatt.getDevice().getName(), gatt.getDevice().getAddress(), uuid, formattedData));
+                logTv(formattedData);
+
+            }else {
+                String valueStr = new String(characteristic.getValue(), StandardCharsets.UTF_8);
+                String modifiedStr = valueStr.substring(1, valueStr.length() - 1);//remove head tail
+
+                Log.i(TAG, String.format("onCharacteristicChanged:%s,%s,%s,%s", gatt.getDevice().getName(), gatt.getDevice().getAddress(), uuid, modifiedStr));
+                logTv("QR: " + modifiedStr);
+            }
         }
 
         @Override

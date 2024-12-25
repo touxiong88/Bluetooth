@@ -5,6 +5,8 @@ import android.app.Application;
 import android.os.Handler;
 import android.widget.Toast;
 
+import java.nio.charset.StandardCharsets;
+
 public class APP extends Application {
     private static final Handler sHandler = new Handler();
     private static Toast sToast;
@@ -17,7 +19,8 @@ public class APP extends Application {
     }
 
     public static void toast(String txt, int duration) {
-        sToast.setText(txt);
+        String utf8Txt = new String(txt.getBytes(), StandardCharsets.UTF_8);
+        sToast.setText(utf8Txt);
         sToast.setDuration(duration);
         sToast.show();
     }
