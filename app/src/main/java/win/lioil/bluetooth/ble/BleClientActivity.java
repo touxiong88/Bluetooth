@@ -166,8 +166,8 @@ public class BleClientActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bleclient);
         RecyclerView rv = findViewById(R.id.rv_ble);
-        Button btn_read = findViewById(R.id.btn_read);
-        mWriteET = findViewById(R.id.et_write);
+        //Button btn_read = findViewById(R.id.btn_read);
+        // = findViewById(R.id.et_write);
         mTips = findViewById(R.id.tv_tips);
         rv.setLayoutManager(new LinearLayoutManager(this));
 

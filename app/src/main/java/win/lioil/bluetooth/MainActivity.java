@@ -48,6 +48,8 @@ public class MainActivity extends Activity {
                 }
             }
         }
+
+        startActivity(new Intent(this, BleClientActivity.class));
     }
 
     public void btClient(View view) {
