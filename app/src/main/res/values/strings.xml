@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name" translatable="false">Bluetooth</string>
+    <string name="app_name" translatable="false">FaytechScanner</string>
     <string name="bt_client" translatable="false">BT client</string>
     <string name="bt_server" translatable="false">BT server</string>
     <string name="ble_client" translatable="false">BLE client (host/central equipment/Central)</string>
     <string name="ble_server" translatable="false">BLE server (slave/peripheral/peripheral)</string>
     <string name="bt">Classic Bluetooth (BT)</string>
     <string name="ble">Low power Bluetooth (BLE)</string>
-    <string name="reScan">rescan</string>
+    <string name="reScan">faytech rescan</string>
     <string name="read">read</string>
     <string name="setNotify">Set Notification</string>
     <string name="max_byte">Up to 20 bytes</string>

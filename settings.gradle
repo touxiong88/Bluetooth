@@ -1,4 +1,4 @@
-include ':app', ':Bluetooth'
+include ':app', ':FaytechBLE'
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
