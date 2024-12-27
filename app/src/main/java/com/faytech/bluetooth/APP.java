@@ -8,6 +8,8 @@ import android.widget.Toast;
 import java.nio.charset.StandardCharsets;
 
 public class APP extends Application {
+
+    private static final String TAG = APP.class.getSimpleName();
     private static final Handler sHandler = new Handler();
     private static Toast sToast;
 
