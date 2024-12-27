@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -174,10 +175,16 @@ public class BleClientActivity extends Activity {
 
         mBleDevAdapter = new BleDevAdapter(new BleDevAdapter.Listener() {
             @Override
-            public void onItemClick(BluetoothDevice dev) {
+            public void onItemClick(BluetoothDevice bluetoothDevice) {
                 closeConn();
-                mBluetoothGatt = dev.connectGatt(BleClientActivity.this, false, mBluetoothGattCallback); // connect bluetooth device
-                logTv(String.format("Start connection with [%s]............", dev));
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {// connect bluetooth device
+                    mBluetoothGatt = bluetoothDevice.connectGatt(BleClientActivity.this, false, mBluetoothGattCallback, BluetoothDevice.TRANSPORT_LE);
+                } else {
+                    mBluetoothGatt = bluetoothDevice.connectGatt(BleClientActivity.this, false, mBluetoothGattCallback);
+                }
+
+                logTv(String.format("Start connection with [%s]............", bluetoothDevice));
             }
         });
         rv.setAdapter(mBleDevAdapter);

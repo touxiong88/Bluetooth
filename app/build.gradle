@@ -33,3 +33,15 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
 }
+
+// 添加task来创建JAR文件
+task makeJar(type: Copy) {
+    from('build/intermediates/classes/release/')
+    into('build/libs/')
+    include('**/*.class')
+    rename { String fileName ->
+        fileName.replace('faytechScanner.class', 'faytechScanner.jar')
+    }
+}
+
+makeJar.dependsOn(build)
