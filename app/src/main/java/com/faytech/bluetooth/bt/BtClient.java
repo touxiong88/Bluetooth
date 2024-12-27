@@ -1,9 +1,9 @@
-package win.lioil.bluetooth.bt;
+package com.faytech.bluetooth.bt;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 
-import win.lioil.bluetooth.util.Util;
+import com.faytech.bluetooth.util.Util;
 
 
 public class BtClient extends BtBase {

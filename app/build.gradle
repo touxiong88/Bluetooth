@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "win.lioil.bluetooth"
+    namespace "com.faytech.bluetooth"
     compileSdkVersion 27
     defaultConfig {
-        applicationId "win.lioil.bluetooth"
+        applicationId "com.faytech.bluetooth"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
@@ -16,10 +16,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-    defaultConfig {
-        // ... other configurations
-        archivesBaseName = "FaytechScanner"
     }
 }
 
@@ -33,15 +29,3 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
 }
-
-// 添加task来创建JAR文件
-task makeJar(type: Copy) {
-    from('build/intermediates/classes/release/')
-    into('build/libs/')
-    include('**/*.class')
-    rename { String fileName ->
-        fileName.replace('faytechScanner.class', 'faytechScanner.jar')
-    }
-}
-
-makeJar.dependsOn(build)

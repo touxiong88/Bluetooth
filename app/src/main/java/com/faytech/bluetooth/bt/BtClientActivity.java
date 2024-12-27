@@ -1,4 +1,4 @@
-package win.lioil.bluetooth.bt;
+package com.faytech.bluetooth.bt;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import java.io.File;
 
-import win.lioil.bluetooth.APP;
-import win.lioil.bluetooth.R;
-import win.lioil.bluetooth.util.BtReceiver;
+import com.faytech.bluetooth.APP;
+import com.faytech.bluetooth.R;
+import com.faytech.bluetooth.util.BtReceiver;
 
 public class BtClientActivity extends Activity implements BtBase.Listener, BtReceiver.Listener, BtDevAdapter.Listener {
     private TextView mTips;

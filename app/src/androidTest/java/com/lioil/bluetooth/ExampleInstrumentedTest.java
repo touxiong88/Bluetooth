@@ -1,4 +1,4 @@
-package win.lioil.bluetooth;
+package com.faytech.bluetooth;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("win.lioil.bluetooth", appContext.getPackageName());
+        assertEquals("com.faytech.bluetooth", appContext.getPackageName());
     }
 }

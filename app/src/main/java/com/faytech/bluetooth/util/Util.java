@@ -1,4 +1,4 @@
-package win.lioil.bluetooth.util;
+package com.faytech.bluetooth.util;
 
 import android.util.Log;
 

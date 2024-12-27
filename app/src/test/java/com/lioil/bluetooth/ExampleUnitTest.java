@@ -1,4 +1,4 @@
-package win.lioil.bluetooth;
+package com.faytech.bluetooth;
 
 import org.junit.Test;
 

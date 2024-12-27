@@ -1,4 +1,4 @@
-package win.lioil.bluetooth.bt;
+package com.faytech.bluetooth.bt;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -11,8 +11,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.UUID;
 
-import win.lioil.bluetooth.APP;
-import win.lioil.bluetooth.util.Util;
+import com.faytech.bluetooth.APP;
+import com.faytech.bluetooth.util.Util;
 
 /**
  * The base class of the client and server, which is used to manage the socket long connection

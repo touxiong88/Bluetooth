@@ -45,16 +45,16 @@ die () {
 }
 
 # OS specific support (must be 'true' or 'false').
-cygwin=false
+cygcom=false
 msys=false
-darwin=false
+darcom=false
 nonstop=false
 case "`uname`" in
   CYGWIN* )
-    cygwin=true
+    cygcom=true
     ;;
-  Darwin* )
-    darwin=true
+  Darcom* )
+    darcom=true
     ;;
   MINGW* )
     msys=true
@@ -89,7 +89,7 @@ location of your Java installation."
 fi
 
 # Increase the maximum file descriptors if we can.
-if [ "$cygwin" = "false" -a "$darwin" = "false" -a "$nonstop" = "false" ] ; then
+if [ "$cygcom" = "false" -a "$darcom" = "false" -a "$nonstop" = "false" ] ; then
     MAX_FD_LIMIT=`ulimit -H -n`
     if [ $? -eq 0 ] ; then
         if [ "$MAX_FD" = "maximum" -o "$MAX_FD" = "max" ] ; then
@@ -104,13 +104,13 @@ if [ "$cygwin" = "false" -a "$darwin" = "false" -a "$nonstop" = "false" ] ; then
     fi
 fi
 
-# For Darwin, add options to specify how the application appears in the dock
-if $darwin; then
+# For Darcom, add options to specify how the application appears in the dock
+if $darcom; then
     GRADLE_OPTS="$GRADLE_OPTS \"-Xdock:name=$APP_NAME\" \"-Xdock:icon=$APP_HOME/media/gradle.icns\""
 fi
 
-# For Cygwin, switch paths to Windows format before running java
-if $cygwin ; then
+# For Cygcom, switch paths to Windows format before running java
+if $cygcom ; then
     APP_HOME=`cygpath --path --mixed "$APP_HOME"`
     CLASSPATH=`cygpath --path --mixed "$CLASSPATH"`
     JAVACMD=`cygpath --unix "$JAVACMD"`
@@ -161,11 +161,11 @@ save () {
 }
 APP_ARGS=$(save "$@")
 
-# Collect all arguments for the java command, following the shell quoting and substitution rules
+# Collect all arguments for the java command, follocomg the shell quoting and substitution rules
 eval set -- $DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS "\"-Dorg.gradle.appname=$APP_BASE_NAME\"" -classpath "\"$CLASSPATH\"" org.gradle.wrapper.GradleWrapperMain "$APP_ARGS"
 
 # by default we should be in the correct project dir, but when run from Finder on Mac, the cwd is wrong
-if [ "$(uname)" = "Darwin" ] && [ "$HOME" = "$PWD" ]; then
+if [ "$(uname)" = "Darcom" ] && [ "$HOME" = "$PWD" ]; then
   cd "$(dirname "$0")"
 fi
 

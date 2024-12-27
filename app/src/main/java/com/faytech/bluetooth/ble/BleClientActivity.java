@@ -1,4 +1,4 @@
-package win.lioil.bluetooth.ble;
+package com.faytech.bluetooth.ble;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
@@ -24,8 +24,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.UUID;
 
-import win.lioil.bluetooth.APP;
-import win.lioil.bluetooth.R;
+import com.faytech.bluetooth.APP;
+import com.faytech.bluetooth.R;
 
 /**
  * BLE client (host/central equipment/Central)

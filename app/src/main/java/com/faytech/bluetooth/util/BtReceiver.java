@@ -1,4 +1,4 @@
-package win.lioil.bluetooth.util;
+package com.faytech.bluetooth.util;
 
 import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothAdapter;

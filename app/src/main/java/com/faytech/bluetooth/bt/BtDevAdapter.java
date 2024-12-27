@@ -1,4 +1,4 @@
-package win.lioil.bluetooth.bt;
+package com.faytech.bluetooth.bt;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import win.lioil.bluetooth.R;
+import com.faytech.bluetooth.R;
 
 public class BtDevAdapter extends RecyclerView.Adapter<BtDevAdapter.VH> {
     private static final String TAG = BtDevAdapter.class.getSimpleName();

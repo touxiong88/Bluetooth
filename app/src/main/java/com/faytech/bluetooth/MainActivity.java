@@ -1,4 +1,4 @@
-package win.lioil.bluetooth;
+package com.faytech.bluetooth;
 
 import android.Manifest;
 import android.app.Activity;
@@ -9,8 +9,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
-import win.lioil.bluetooth.ble.BleClientActivity;
-import win.lioil.bluetooth.bt.BtClientActivity;
+import com.faytech.bluetooth.ble.BleClientActivity;
+import com.faytech.bluetooth.bt.BtClientActivity;
 
 public class MainActivity extends Activity {
 
