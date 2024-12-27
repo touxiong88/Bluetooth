@@ -26,6 +26,14 @@ import java.util.UUID;
 
 import com.faytech.bluetooth.APP;
 import com.faytech.bluetooth.R;
+import android.Manifest;
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
 
 /**
  * BLE client (host/central equipment/Central)
@@ -171,6 +179,35 @@ public class BleClientActivity extends Activity {
         // = findViewById(R.id.et_write);
         mTips = findViewById(R.id.tv_tips);
         rv.setLayoutManager(new LinearLayoutManager(this));
+		
+		BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        if (adapter == null) {
+            APP.toast("No Bluetooth hardware or driver found！", 0);
+            finish();
+            return;
+        } else {
+            if (!adapter.isEnabled()) {
+                adapter.enable();
+            }
+        }
+
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
+            APP.toast("This machine does not support low-power Bluetooth！", 0);
+            finish();
+            return;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    , Manifest.permission.READ_EXTERNAL_STORAGE
+                    , Manifest.permission.ACCESS_COARSE_LOCATION};
+            for (String str : permissions) {
+                if (checkSelfPermission(str) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(permissions, 111);
+                    break;
+                }
+            }
+        }
 
 
         mBleDevAdapter = new BleDevAdapter(new BleDevAdapter.Listener() {
