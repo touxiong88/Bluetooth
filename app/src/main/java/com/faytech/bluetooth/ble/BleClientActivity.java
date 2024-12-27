@@ -225,6 +225,8 @@ public class BleClientActivity extends Activity {
             }
         });
         rv.setAdapter(mBleDevAdapter);
+
+        mBleDevAdapter.reScan();
     }
 
     @Override
