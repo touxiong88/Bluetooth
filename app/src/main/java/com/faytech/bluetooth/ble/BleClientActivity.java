@@ -227,6 +227,16 @@ public class BleClientActivity extends Activity {
         rv.setAdapter(mBleDevAdapter);
 
         mBleDevAdapter.reScan();
+
+
+/*        //in onCreate：
+        public String deviceAddress = "F7:39:C9:D4:70:F1"; // BLE device MAC address from UART service sharepreferences
+        final BluetoothManager bluetoothManager =(BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
+        bluetoothAdapter.enable();
+        device = bluetoothAdapter.getRemoteDevice (deviceAddress);
+        bluetoothGatt = device.connectGatt(this, false, gattCallback);*/
+
     }
 
     @Override

@@ -17,6 +17,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "default"
+    productFlavors {
+        faytech {
+            applicationIdSuffix ".faytechScanner"
+            versionNameSuffix "-faytechScanner"
+        }
+    }
 }
 
 dependencies {
